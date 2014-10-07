@@ -87,7 +87,7 @@ public class RoverState extends State implements Cloneable{
 				case SE:point.setLocation(x+1, y+1);
 			}
 			RoverState n = new RoverState(point.x, point.y, terrain);
-			return new Arc(this, n, action);
+			return new Arc(this, n, action,custo);
 		}
 		return null;
 		
@@ -113,9 +113,9 @@ public class RoverState extends State implements Cloneable{
 				case ROCK: cost = 3.0;
 					break;
 			}
-			/*return cost * Math.sqrt( Math.pow(x - prevX, 2 )
+			return cost * Math.pow(Math.E,Math.abs(height - prevH)) * Math.sqrt( Math.pow(x - prevX, 2 )
 					+ Math.pow(y - prevY, 2)
-					+ Math.pow(height - prevH, 2));*/
+					+ Math.pow(height - prevH, 2));
 		}
 		return cost;
 	}
