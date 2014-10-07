@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.*;
 import searchproblem.*;
 
 
@@ -22,7 +21,7 @@ public class RoverState extends State implements Cloneable{
 		height = t.getHeight(startx, starty);
 	}
 	
-	protected static final int[] PRIMES = 
+	private static final int[] PRIMES = 
 	    {
 	        31, 421, 4951, 25163, 430517, 4904077, 24827059, 424194271, 2147483647
 	    };
@@ -31,7 +30,7 @@ public class RoverState extends State implements Cloneable{
 		List<Arc> l = new ArrayList<Arc>();
 		for (RoverOperator op: RoverOperator.values())
 			if (applicableOperator(op))
-				l.add(successorState(op));				
+				l.add(successorState(op));
 		return l;
 	}
 	
@@ -41,18 +40,25 @@ public class RoverState extends State implements Cloneable{
 			op =  (RoverOperator) action;
 			Point point = new Point();
 			switch (op){
-				case N: point.move(x, y-1);
-				case S: point.move(x, y+1);
-				case E: point.move(x+1, y);
-				case W: point.move(x-1, y);
-				case NW:point.move(x-1, y-1);
-				case NE:point.move(x+1, y-1);
-				case SW:point.move(x-1, y+1);
-				case SE:point.move(x+1, y+1);
+				case N: point.setLocation(x, y-1);
+				break;
+				case S: point.setLocation(x, y+1);
+				break;
+				case E: point.setLocation(x+1, y);
+				break;
+				case W: point.setLocation(x-1, y);
+				break;
+				case NW:point.setLocation(x-1, y-1);
+				break;
+				case NE:point.setLocation(x+1, y-1);
+				break;
+				case SW:point.setLocation(x-1, y+1);
+				break;
+				case SE:point.setLocation(x+1, y+1);
 			}
-			return Math.abs(terrain.getHeight(point.x,point.y)-height) <= 1
-					&& point.x >= 0 && point.x <= terrain.getHorizontalSize()
-					&& point.y >= 0 && point.y <= terrain.getVerticalSize();
+			if (point.x >= 0 && point.x < terrain.getHorizontalSize()
+					&& point.y >= 0 && point.y < terrain.getVerticalSize())
+				return Math.abs(terrain.getHeight(point.x,point.y)-height) <= 1;
 		}
 		return false; 
 		
@@ -64,16 +70,24 @@ public class RoverState extends State implements Cloneable{
 		if (applicableOperator(action)){	
 			Point point = new Point();
 			switch (op){
-				case N: point.move(x, y-1);
-				case S: point.move(x, y+1);
-				case E: point.move(x+1, y);
-				case W: point.move(x-1, y);
-				case NW:point.move(x-1, y-1);
-				case NE:point.move(x+1, y-1);
-				case SW:point.move(x-1, y+1);
-				case SE:point.move(x+1, y+1);
+				case N: point.setLocation(x, y-1);
+				break;
+				case S: point.setLocation(x, y+1);
+				break;
+				case E: point.setLocation(x+1, y);
+				break;
+				case W: point.setLocation(x-1, y);
+				break;
+				case NW:point.setLocation(x-1, y-1);
+				break;
+				case NE:point.setLocation(x+1, y-1);
+				break;
+				case SW:point.setLocation(x-1, y+1);
+				break;
+				case SE:point.setLocation(x+1, y+1);
 			}
-			return new Arc(this, new RoverState(point.x, point.y, terrain), action);
+			RoverState n = new RoverState(point.x, point.y, terrain);
+			return new Arc(this, n, action);
 		}
 		return null;
 		
@@ -81,7 +95,7 @@ public class RoverState extends State implements Cloneable{
 
 	@Override
 	public double applyOperator(Object op) {
-		double cost = 10000.0;
+		double cost = 0.0;
 		if (applicableOperator(op)){
 			Arc a = successorState(op);
 			int prevX = x;
@@ -90,8 +104,8 @@ public class RoverState extends State implements Cloneable{
 			x = ((RoverState)a.getChild()).getCoordX();
 			y = ((RoverState)a.getChild()).getCoordY();
 			height = terrain.getHeight(x, y);
-			//System.out.println('('+prevX+','+prevY+','+prevH+"):("+x+','+y+','+height+')');
-			switch(terrain.getTerrainType(x, y)){
+			//System.out.println("("+prevX+","+prevY+","+prevH+"):("+x+","+y+","+height+')');
+			switch(terrain.getTerrainType(prevX,prevY)){
 				case PLAIN:cost = 1.0;
 					break;
 				case SAND: cost = 2.0;
@@ -99,9 +113,9 @@ public class RoverState extends State implements Cloneable{
 				case ROCK: cost = 3.0;
 					break;
 			}
-			return cost * sqrt( pow(x - prevX, 2 )
-					+ pow(y - prevY, 2)
-					+ pow(height - prevH, 2));
+			/*return cost * Math.sqrt( Math.pow(x - prevX, 2 )
+					+ Math.pow(y - prevY, 2)
+					+ Math.pow(height - prevH, 2));*/
 		}
 		return cost;
 	}
@@ -113,8 +127,8 @@ public class RoverState extends State implements Cloneable{
 
 	@Override
 	public int hashCode() {
-		int PRIME = nextPrime(terrain.getVerticalSize());
-		return PRIME * x + y;
+		int prime = nextPrime(terrain.getVerticalSize());
+		return prime * x + y;
 	}
 
 	@Override

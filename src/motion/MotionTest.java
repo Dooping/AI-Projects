@@ -84,6 +84,8 @@ public class MotionTest extends Component {
 		int j=6;
 		int startx = pointx[i]; int starty = pointy[i];
 		int goalx = pointx[j];  int goaly = pointy[j];
+		/*int startx = 0; int starty = 0;
+		int goalx = 999;  int goaly = 999;*/
 
         // Avoids side-effects of writing in the image
 		t = new BitmapTerrain(TERRAIN_PATH);
@@ -94,6 +96,7 @@ public class MotionTest extends Component {
 		// Solves the problem using AStarSearch
 		InformedSearchProblem prob = new RoverProblem(init,goal);
 		SearchAlgorithm u = new AStarSearch(prob);
+	//	UniformCostSearch u = new UniformCostSearch(prob);
 
 		// Determines the solution and writes the metrics
 		Node n = u.searchSolution();

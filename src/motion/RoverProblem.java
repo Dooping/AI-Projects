@@ -2,19 +2,24 @@ package motion;
 
 import static java.lang.Math.*;
 
+import java.util.Set;
+
 import searchalgorithm.Node;
 import searchproblem.*;
 
 public class RoverProblem extends InformedSearchProblem {
 
 	
-
 	public RoverProblem(State initial) {
 		super(initial);
 	}
 
 	public RoverProblem(RoverState init, RoverState goal) {
 		super (init, goal);
+	}
+	
+	public RoverProblem(State initial, Set<State> goals) {
+		super(initial, goals);
 	}
 
 	@Override
