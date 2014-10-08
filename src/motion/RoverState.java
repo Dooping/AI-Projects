@@ -40,54 +40,36 @@ public class RoverState extends State implements Cloneable{
 			op =  (RoverOperator) action;
 			Point point = new Point();
 			switch (op){
-				case N: point.setLocation(x, y-1);
+				case N: point.move(x, y-1);
 				break;
-				case S: point.setLocation(x, y+1);
+				case S: point.move(x, y+1);
 				break;
-				case E: point.setLocation(x+1, y);
+				case E: point.move(x+1, y);
 				break;
-				case W: point.setLocation(x-1, y);
+				case W: point.move(x-1, y);
 				break;
-				case NW:point.setLocation(x-1, y-1);
+				case NW:point.move(x-1, y-1);
 				break;
-				case NE:point.setLocation(x+1, y-1);
+				case NE:point.move(x+1, y-1);
 				break;
-				case SW:point.setLocation(x-1, y+1);
+				case SW:point.move(x-1, y+1);
 				break;
-				case SE:point.setLocation(x+1, y+1);
+				case SE:point.move(x+1, y+1);
 			}
+			//System.out.println(point.x + ":" + point.y);
 			if (point.x >= 0 && point.x < terrain.getHorizontalSize()
 					&& point.y >= 0 && point.y < terrain.getVerticalSize())
-				return Math.abs(terrain.getHeight(point.x,point.y)-height) <= 1;
+				return Math.abs(terrain.getHeight(point.x,point.y)-height) <= 10;
 		}
 		return false; 
 		
 	}
 	
 	public Arc successorState(Object action){
-		RoverOperator op;
-		op =  (RoverOperator) action;
-		if (applicableOperator(action)){	
-			Point point = new Point();
-			switch (op){
-				case N: point.setLocation(x, y-1);
-				break;
-				case S: point.setLocation(x, y+1);
-				break;
-				case E: point.setLocation(x+1, y);
-				break;
-				case W: point.setLocation(x-1, y);
-				break;
-				case NW:point.setLocation(x-1, y-1);
-				break;
-				case NE:point.setLocation(x+1, y-1);
-				break;
-				case SW:point.setLocation(x-1, y+1);
-				break;
-				case SE:point.setLocation(x+1, y+1);
-			}
-			RoverState n = new RoverState(point.x, point.y, terrain);
-			return new Arc(this, n, action,custo);
+		if (applicableOperator(action)){
+			RoverState n = (RoverState)this.clone();
+			double custo = n.applyOperator(action);
+			return new Arc(this,n,action,custo);
 		}
 		return null;
 		
@@ -97,12 +79,30 @@ public class RoverState extends State implements Cloneable{
 	public double applyOperator(Object op) {
 		double cost = 0.0;
 		if (applicableOperator(op)){
-			Arc a = successorState(op);
+			Point point = new Point();
+			RoverOperator opp =  (RoverOperator) op;
+			switch (opp){
+				case N: point.setLocation(x, y-1);
+				break;
+				case S: point.setLocation(x, y+1);
+				break;
+				case E: point.setLocation(x+1, y);
+				break;
+				case W: point.setLocation(x-1, y);
+				break;
+				case NW:point.setLocation(x-1, y-1);
+				break;
+				case NE:point.setLocation(x+1, y-1);
+				break;
+				case SW:point.setLocation(x-1, y+1);
+				break;
+				case SE:point.setLocation(x+1, y+1);
+			}
 			int prevX = x;
 			int prevY = y;
 			int prevH = height;
-			x = ((RoverState)a.getChild()).getCoordX();
-			y = ((RoverState)a.getChild()).getCoordY();
+			x = point.x;
+			y = point.y;
 			height = terrain.getHeight(x, y);
 			//System.out.println("("+prevX+","+prevY+","+prevH+"):("+x+","+y+","+height+')');
 			switch(terrain.getTerrainType(prevX,prevY)){
