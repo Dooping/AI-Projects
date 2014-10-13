@@ -29,6 +29,8 @@ public class RoverProblem extends InformedSearchProblem {
 		return sqrt( pow(g.getCoordX() - s.getCoordX(), 2 )
 				+ pow(g.getCoordY() - s.getCoordY(), 2)
 				+ pow(g.getHeight() - s.getHeight(), 2));
+		/*return max(max(g.getCoordX() - s.getCoordX(), g.getCoordY() - s.getCoordY()),
+		g.getHeight() - s.getHeight());*/
 	}
 
 }

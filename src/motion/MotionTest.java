@@ -80,12 +80,12 @@ public class MotionTest extends Component {
 		int pointy[] = {190, 659, 10, 638, 741, 115, 714, 453, 707, 777, 124, 617, 880, 271, 13, 
 				866, 615, 418, 836, 156, 132, 132, 64, 236, 766, 305, 540, 677, 506, 342};
 		
-		int i=0;
-		int j=6;
-		int startx = pointx[i]; int starty = pointy[i];
-		int goalx = pointx[j];  int goaly = pointy[j];
-		/*int startx = 0; int starty = 0;
-		int goalx = 999;  int goaly = 999;*/
+		int i=4;
+		int j=9;
+		//int startx = pointx[i]; int starty = pointy[i];
+		//int goalx = pointx[j];  int goaly = pointy[j];
+		int startx = 0; int starty = 0;
+		int goalx = 999;  int goaly = 999;
 
         // Avoids side-effects of writing in the image
 		t = new BitmapTerrain(TERRAIN_PATH);
