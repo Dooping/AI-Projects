@@ -26,9 +26,9 @@ public class RoverProblem extends InformedSearchProblem {
 	public double heuristic(Node n) {
 		RoverState s = (RoverState)n.getState();
 		RoverState g = (RoverState)goalStates.iterator().next();
-		return sqrt( pow(g.getCoordX() - s.getCoordX(), 2 )
-				+ pow(g.getCoordY() - s.getCoordY(), 2)
-				+ pow(g.getHeight() - s.getHeight(), 2));
+		return sqrt( ((g.getCoordX() - s.getCoordX())*(g.getCoordX() - s.getCoordX()))
+				+ ((g.getCoordY() - s.getCoordY())*(g.getCoordY() - s.getCoordY()))
+				+ ((g.getHeight() - s.getHeight())*(g.getHeight() - s.getHeight())));
 		/*return max(max(g.getCoordX() - s.getCoordX(), g.getCoordY() - s.getCoordY()),
 		g.getHeight() - s.getHeight());*/
 	}

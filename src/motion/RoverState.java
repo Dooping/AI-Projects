@@ -113,9 +113,9 @@ public class RoverState extends State implements Cloneable{
 				case ROCK: cost = 3.0;
 					break;
 			}
-			return cost * Math.pow(Math.E,Math.abs(height - prevH)) * Math.sqrt( Math.pow(x - prevX, 2 )
-					+ Math.pow(y - prevY, 2)
-					+ Math.pow(height - prevH, 2));
+			return cost * Math.exp(Math.abs(height - prevH)) * Math.sqrt(((x - prevX)*(x - prevX))
+					+ ((y - prevY)*(y - prevY))
+					+ ((height - prevH)*(height - prevH)));
 		}
 		return cost;
 	}
