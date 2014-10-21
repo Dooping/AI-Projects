@@ -89,6 +89,9 @@ public class Population {
 	}
 	
 	public Population getElite(int n){
+		//Population newpop = new Population();
+		//if (n==1)
+		// newpop.addIndividual((Individual)bestInd.clone)
 		return null;
 	}
 
