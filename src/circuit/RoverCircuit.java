@@ -17,6 +17,7 @@ public class RoverCircuit extends Individual {
 	//2 construtores
 	public RoverCircuit(ObservationData data){
 		this.data = data;
+		size = data.getSize();
 		List<Integer> c = new ArrayList<Integer>();
 		for (int i = 0; i<data.getSize(); i++)
 			c.add(i);
@@ -34,7 +35,14 @@ public class RoverCircuit extends Individual {
 		
 		//gerar uma lista de inteiros cegamente (0..n-1)
 		//aplicar shuffle
-		//copiar para Circuit
+		//copiar para circuit
+	}
+	
+	public RoverCircuit(ObservationData data, int[] circuit){
+		this.data = data;
+		for (int i:circuit)
+			this.circuit[i] = circuit[i];
+		size = circuit.length;
 	}
 
 	@Override
@@ -44,8 +52,24 @@ public class RoverCircuit extends Individual {
 
 	@Override
 	public Individual[] crossover(Individual other) {
-		// TODO Auto-generated method stub
+		RoverCircuit a =(RoverCircuit)this.clone();
+		RoverCircuit b =(RoverCircuit)other.clone();
+		int[] ca = a.getCircuit();
+		int[] cb = b.getCircuit();
+		int c2 = 1 + gen.nextInt(size - 3);
+		int c1 = 0 + gen.nextInt(c2 - 1);
+		int n = c2;
+		for (int i = c2;i<size;i++){
+			if (alreadyInArray(cb,c1,n,this.getCircuit()[i]))
+				cb[n] = 0;
+		}
+		
 		return null;
+	}
+	
+	private boolean alreadyInArray(int[] circuit,int c1, int c2, int elem){
+		//for ()
+		return false;
 	}
 
 	@Override
@@ -56,12 +80,15 @@ public class RoverCircuit extends Individual {
 
 	@Override
 	public Object clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RoverCircuit(data, circuit);
 	}
 	
 	public String toString(){
 		return null;		
+	}
+	
+	public int[] getCircuit(){
+		return circuit;
 	}
 	
 }
