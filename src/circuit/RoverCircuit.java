@@ -41,7 +41,6 @@ public class RoverCircuit extends Individual {
 	@Override
 	public double fitness() {
 		int time = data.getSpot(circuit[0]).firstTime();
-		//fit = (double)time;
 		for(int i = 0; i<size;i++){
 			time = data.getSpot(circuit[i]).durationObservation(time);
 			if (i<size-1)
@@ -114,25 +113,12 @@ public class RoverCircuit extends Individual {
 		children[0] = new RoverCircuit(data,ca);
 		children[1] = new RoverCircuit(data,cb);
 		
-		
-		
-		/*RoverCircuit a =(RoverCircuit)this.clone();
-		RoverCircuit b =(RoverCircuit)other.clone();
-		int[] ca = a.getCircuit();
-		int[] cb = b.getCircuit();
-		int c2 = 1 + gen.nextInt(size - 3);
-		int c1 = 0 + gen.nextInt(c2 - 1);
-		int n = c2;
-		for (int i = c2;i<size;i++){
-			if (alreadyInArray(cb,c1,n,this.getCircuit()[i]))
-				cb[n] = 0;
-		}*/
-		
 		return children;
 	}
 
 	@Override
 	public void mutate() {
+		// operador de troca
 		int n1 = gen.nextInt(size);
 		int n2 = gen.nextInt(size-1);
 		if (n1 == n2)
@@ -153,6 +139,18 @@ public class RoverCircuit extends Individual {
 	
 	public int[] getCircuit(){
 		return circuit;
+	}
+
+	@Override
+	public int compareTo(Individual other) {
+		double i1 = this.fitness();
+		double i2 = other.fitness();
+		if( i1 >  i2)
+			return -1;
+		else if ( i1 < i2 )
+			return 1;
+		else
+			return 0;
 	}
 	
 }

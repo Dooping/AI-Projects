@@ -89,30 +89,37 @@ public class Population {
 	}
 	
 	public Population getElite(int n){
-		//Population newpop = new Population();
-		//if (n==1)
-		// newpop.addIndividual((Individual)bestInd.clone)
-		return null;
+		Population newpop = new Population();
+		Collections.sort(pop);
+		if (n>size)
+			n=size;
+		for (int i=0;i<n;i++)
+			newpop.addIndividual((Individual)pop.get(i).clone());
+		return newpop;
 	}
 
-	public int getAvgFitness() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getAvgFitness() {
+		double avg = 0.0;
+		for (Individual i:pop)
+			avg += i.fitness();
+			
+		return avg/size;
 	}
 
-	public int getWorstFitness() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getWorstFitness() {
+		return worstFit;
 	}
 
-	public String getBestFitness() {
-		// TODO Auto-generated method stub
-		return null;
+	public double getBestFitness() {
+		return bestFit;
 	}
 
-	public char[] getBestIndividual() {
-		// TODO Auto-generated method stub
-		return null;
+	public Individual getBestIndividual() {
+		return bestInd;
+	}
+	
+	public int getSize(){
+		return size;
 	}
 	
 

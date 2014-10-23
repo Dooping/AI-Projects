@@ -1,22 +1,22 @@
 package circuit;
 
 /**
- * 	Classe abstracta para representar um indivíduo da população.
+ * 	Classe abstracta para representar um indivï¿½duo da populaï¿½ï¿½o.
  */
-public abstract class Individual {
+public abstract class Individual implements Comparable<Individual>{
 	/**
-	 * 	fitness: representa a "abilidade"/adequabilidade do indivíduo para "resolver" o problema, 
-	 * isto é, o custo que se pretende o menor possível
+	 * 	fitness: representa a "abilidade"/adequabilidade do indivï¿½duo para "resolver" o problema, 
+	 * isto ï¿½, o custo que se pretende o menor possï¿½vel
 	 * @return fitness
 	 */
 	public abstract double fitness();
 	/**
-	 * método abstracto que cruza dois indivíduos e gera um array de indivíduos.
-	 * @return Individual[], array de indivíduos
+	 * mï¿½todo abstracto que cruza dois indivï¿½duos e gera um array de indivï¿½duos.
+	 * @return Individual[], array de indivï¿½duos
 	 */
 	public abstract Individual[] crossover(Individual other);
 	/**
-	 * 	Método abstracto que opera uma mutação num indivíduo.
+	 * 	Mï¿½todo abstracto que opera uma mutaï¿½ï¿½o num indivï¿½duo.
 	 */
 	public abstract void mutate();
 	
