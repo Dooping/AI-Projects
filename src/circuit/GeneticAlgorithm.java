@@ -1,5 +1,8 @@
 package circuit;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 /**
  * Classe que "implementa" o algoritmo gen�tico
@@ -46,25 +49,41 @@ public class GeneticAlgorithm {
 		Population newpop;
 		Individual x,y;
 		Individual[] children = new Individual[2];
-		for(int i = 0;i<CAP;i++){
-			newpop = new Population();
-			for(int j = 0; j<pop.getSize()/2;j++){
-				x=pop.selectIndividual();
-				y=pop.selectIndividual();
-				if (gen.nextFloat()<=pcrossover)
-					children = x.crossover(y);
-				else{
-					children[0] = x;
-					children[1] = y;
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("data.xml", "UTF-8");
+		
+			for(int i = 0;i<CAP;i++){
+				writer.println(i+"	"+pop.getBestFitness());
+				pop = pop.getElite(CAP);
+				newpop = new Population();
+				for(int j = 0; j<pop.getSize();j++){
+					x=pop.selectIndividual();
+					y=pop.selectIndividual();
+					if (gen.nextFloat()<=pcrossover)
+						children = x.crossover(y);
+					else{
+						children[0] = x;
+						children[1] = y;
+					}
+					if(gen.nextFloat()<=pmutate)
+						children[0].mutate();
+					if(gen.nextFloat()<=pmutate)
+						children[1].mutate();
+					newpop.addIndividual(children[0]);
+					newpop.addIndividual(children[1]);
+					//System.out.println(newpop.getBestFitness());
 				}
-				if(gen.nextFloat()<=pmutate)
-					children[0].mutate();
-				if(gen.nextFloat()<=pmutate)
-					children[1].mutate();
-				newpop.addIndividual(children[0]);
-				newpop.addIndividual(children[1]);
+				pop=newpop;
 			}
-			pop=newpop;
+	
+			writer.println(CAP+"	"+pop.getBestFitness());
+			
+			writer.close();
+
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return pop.getBestIndividual();		
 	}

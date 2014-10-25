@@ -13,7 +13,7 @@ public class CircuitTest {
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 				
 		String datastr = "";
-		BufferedReader reader = new BufferedReader( new FileReader("C:\\aulas1415\\1semestre\\IA\\trabalho1_P2\\trab1P2solucao\\routedata.txt"));
+		BufferedReader reader = new BufferedReader( new FileReader("/home/doping/Downloads/CinquentaAnel.txt"));
 		
 		String line = reader.readLine();
 		while( line != null) {
@@ -86,7 +86,9 @@ public class CircuitTest {
 		GeneticAlgorithm ga = new GeneticAlgorithm(p,0.9f,0.2f);
 		
 		System.out.println("--------------------");
-		System.out.println("Best individual found: "+ga.search());
+		Individual bestind = ga.search();
+		System.out.println("Best individual found: "+ bestind);
+		System.out.println("Best individual fitness: "+ bestind.fitness());
 		      
 	}
 

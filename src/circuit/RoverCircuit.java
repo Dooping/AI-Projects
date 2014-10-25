@@ -18,14 +18,17 @@ public class RoverCircuit extends Individual {
 	public RoverCircuit(ObservationData data){
 		this.data = data;
 		size = data.getSize();
+		circuit = new int[size];
 		List<Integer> c = new ArrayList<Integer>();
 		for (int i = 0; i<data.getSize(); i++)
 			c.add(i);
 		
 		gen.setSeed(System.currentTimeMillis());
 		Collections.shuffle(c,gen);
-		for(int i:c)
+		for(int i = 0;i<c.size();i++){
 			circuit[i]=c.get(i);
+			
+		}
 		//gerar uma lista de inteiros cegamente (0..n-1)
 		//aplicar shuffle
 		//copiar para circuit
@@ -33,6 +36,7 @@ public class RoverCircuit extends Individual {
 	
 	public RoverCircuit(ObservationData data, int[] circuit){
 		this.data = data;
+		this.circuit = new int[circuit.length];
 		for (int i:circuit)
 			this.circuit[i] = circuit[i];
 		size = circuit.length;
@@ -41,12 +45,13 @@ public class RoverCircuit extends Individual {
 	@Override
 	public double fitness() {
 		int time = data.getSpot(circuit[0]).firstTime();
+		
 		for(int i = 0; i<size;i++){
-			time = data.getSpot(circuit[i]).durationObservation(time);
+			time += data.getSpot(circuit[i]).durationObservation(time);
 			if (i<size-1)
-				time += data.getCost(i, i+1);
+				time += data.getCost(circuit[i], circuit[i+1]);
 			else
-				time += data.getCost(i, 0);
+				time += data.getCost(circuit[i], circuit[0]);
 		}
 		fit = (double)time;
 		return fit;
@@ -134,7 +139,11 @@ public class RoverCircuit extends Individual {
 	}
 	
 	public String toString(){
-		return null;		
+		String s = "[";
+		for (int i = 0;i<circuit.length-1;i++)
+			s += circuit[i] + " ";
+		s+=circuit[circuit.length-1]+"]";
+		return s;		
 	}
 	
 	public int[] getCircuit(){
@@ -146,9 +155,9 @@ public class RoverCircuit extends Individual {
 		double i1 = this.fitness();
 		double i2 = other.fitness();
 		if( i1 >  i2)
-			return -1;
-		else if ( i1 < i2 )
 			return 1;
+		else if ( i1 < i2 )
+			return -1;
 		else
 			return 0;
 	}

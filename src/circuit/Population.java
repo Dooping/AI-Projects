@@ -31,7 +31,7 @@ public class Population {
 		this.worstInd = null;
 		this.bestFit = Double.POSITIVE_INFINITY;
 		this.worstFit = Double.NEGATIVE_INFINITY;
-		
+		gen.setSeed(System.currentTimeMillis());
 	}
 	
 	/**
@@ -64,9 +64,9 @@ public class Population {
 		int pos = Collections.binarySearch(acum, r);
 		
 		if( pos >= 0)
-			return pop.get(pos);
+			return pop.get(pos%size);
 		else
-			return pop.get(-(pos+1));
+			return pop.get(-(pos+1)%size);
 		
 	}
 	/**
