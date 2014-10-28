@@ -9,9 +9,10 @@ import java.util.Random;
  */
 public class GeneticAlgorithm {
 
-	private final static int CAP = 100;
+	private final static int GEN_CAP = 1000;
 	private static final float DEFAULT_P_CROSSOVER = 0.6f;
 	private static final float DEFAULT_P_MUTATE = 0.001f;
+	private static final int ELITE = 20;
 	
 	private static Random gen = new Random();
 	private float pcrossover;
@@ -53,11 +54,10 @@ public class GeneticAlgorithm {
 		try {
 			writer = new PrintWriter("data.xml", "UTF-8");
 		
-			for(int i = 0;i<CAP;i++){
+			for(int i = 0;i<GEN_CAP;i++){
 				writer.println(i+"	"+pop.getBestFitness());
-				pop = pop.getElite(CAP);
-				newpop = new Population();
-				for(int j = 0; j<pop.getSize();j++){
+				newpop = pop.getElite(ELITE);
+				while(newpop.getSize()<pop.getSize()){
 					x=pop.selectIndividual();
 					y=pop.selectIndividual();
 					if (gen.nextFloat()<=pcrossover)
@@ -72,12 +72,11 @@ public class GeneticAlgorithm {
 						children[1].mutate();
 					newpop.addIndividual(children[0]);
 					newpop.addIndividual(children[1]);
-					//System.out.println(newpop.getBestFitness());
 				}
 				pop=newpop;
 			}
 	
-			writer.println(CAP+"	"+pop.getBestFitness());
+			writer.println(GEN_CAP+"	"+pop.getBestFitness());
 			
 			writer.close();
 

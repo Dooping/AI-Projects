@@ -21,6 +21,8 @@ public class CircuitTest {
 			line = reader.readLine();
 		}
 		
+		reader.close();
+		
 		
 		ObservationData r = new ObservationData(datastr);
 		
@@ -89,6 +91,7 @@ public class CircuitTest {
 		Individual bestind = ga.search();
 		System.out.println("Best individual found: "+ bestind);
 		System.out.println("Best individual fitness: "+ bestind.fitness());
+		
 		      
 	}
 
