@@ -1,9 +1,9 @@
 package circuit;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Random;
+
+import org.jfree.chart.*;
+import org.jfree.data.xy.*;
 /**
  * Classe que "implementa" o algoritmo gen�tico
  */
@@ -50,12 +50,16 @@ public class GeneticAlgorithm {
 		Population newpop;
 		Individual x,y;
 		Individual[] children = new Individual[2];
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter("data.xml", "UTF-8");
+		//PrintWriter writer;
+		//try {
+			//writer = new PrintWriter("data.xml", "UTF-8");
+		JFreeChart chart;
+		XYSeriesCollection data = new XYSeriesCollection();
+		XYSeries series = new XYSeries("asdjh");
 		
 			for(int i = 0;i<GEN_CAP;i++){
-				writer.println(i+"	"+pop.getBestFitness());
+				//writer.println(i+"	"+pop.getBestFitness());
+				series.add(i,pop.getBestFitness());
 				newpop = pop.getElite(ELITE);
 				while(newpop.getSize()<pop.getSize()){
 					x=pop.selectIndividual();
@@ -75,15 +79,20 @@ public class GeneticAlgorithm {
 				}
 				pop=newpop;
 			}
-	
-			writer.println(GEN_CAP+"	"+pop.getBestFitness());
+			series.add(GEN_CAP,pop.getBestFitness());
+			data.addSeries(series);
+			chart = ChartFactory.createXYLineChart("chart", "Generation", "Fitness", data);
+			ChartPanel chartPanel = new ChartPanel(chart);
+	        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+	        //setContentPane(chartPanel);
+			//data = = new XYSeriesCollection();
+			//writer.println(GEN_CAP+"	"+pop.getBestFitness());
 			
-			writer.close();
+			//writer.close();
 
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//} catch (FileNotFoundException | UnsupportedEncodingException e) {
+		//	e.printStackTrace();
+		//}
 		return pop.getBestIndividual();		
 	}
 }
