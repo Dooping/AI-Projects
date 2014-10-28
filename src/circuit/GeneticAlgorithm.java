@@ -2,6 +2,8 @@ package circuit;
 
 import java.util.Random;
 
+import javax.swing.JFrame;
+
 import org.jfree.chart.*;
 import org.jfree.data.xy.*;
 /**
@@ -84,6 +86,11 @@ public class GeneticAlgorithm {
 			chart = ChartFactory.createXYLineChart("chart", "Generation", "Fitness", data);
 			ChartPanel chartPanel = new ChartPanel(chart);
 	        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+	        chartPanel.setVisible(true);
+	        JFrame frame = new JFrame("asdjhg");
+	        frame.add(chartPanel);
+	        frame.pack();
+	        frame.setVisible(true);
 	        //setContentPane(chartPanel);
 			//data = = new XYSeriesCollection();
 			//writer.println(GEN_CAP+"	"+pop.getBestFitness());
