@@ -102,17 +102,28 @@ public class RoverCircuit extends Individual {
 			cb[i] = ((RoverCircuit)other).getCircuit()[i];
 			check2[cb[i]]=true;
 		}
-		int n1 = 0;
-		int n2 = 0;
-		for(int i=0;i<size;i++){
+		int n1 = cut2%size;
+		int n2 = cut2%size;
+		for(int i=cut2;i<size;i++){
 			if (!check1[((RoverCircuit)other).getCircuit()[i]])
 				ca[n1++]=((RoverCircuit)other).getCircuit()[i];
 			if (!check2[this.getCircuit()[i]])
 				cb[n2++]=this.getCircuit()[i];
-			if (n1 == cut1)
-				n1 = cut2;
-			if (n2 == cut1)
-				n2 = cut2;
+			if (n1 == size)
+				n1 = 0;
+			if (n2 == size)
+				n2 = 0;
+		}
+		
+		for(int i=0;i<cut2;i++){
+			if (!check1[((RoverCircuit)other).getCircuit()[i]])
+				ca[n1++]=((RoverCircuit)other).getCircuit()[i];
+			if (!check2[this.getCircuit()[i]])
+				cb[n2++]=this.getCircuit()[i];
+			if (n1 == size)
+				n1 = 0;
+			if (n2 == size)
+				n2 = 0;
 		}
 		
 		children[0] = new RoverCircuit(data,ca);

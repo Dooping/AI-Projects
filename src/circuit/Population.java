@@ -122,5 +122,22 @@ public class Population {
 		return size;
 	}
 	
+	public void hillClimbing(){
+		Collections.sort(pop);
+		boolean changed = true;
+		Individual []children;
+		while(changed){
+			children = bestInd.crossover(this.selectIndividual());
+			changed = false;
+			for (int i=0;i<children.length;i++)
+				if (children[i].fitness()<=bestInd.fitness()){
+					bestInd = children[i];
+					pop.set(0, bestInd);
+					changed = true;
+						
+				}
+		}
+	}
+	
 
 }

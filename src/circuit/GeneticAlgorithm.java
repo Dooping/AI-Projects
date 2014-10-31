@@ -13,7 +13,7 @@ public class GeneticAlgorithm {
 
 	private final static int GEN_CAP = 1000;
 	private static final float DEFAULT_P_CROSSOVER = 0.6f;
-	private static final float DEFAULT_P_MUTATE = 0.001f;
+	private static final float DEFAULT_P_MUTATE = 0.0001f;
 	private static final int ELITE = 20;
 	
 	private static Random gen = new Random();
@@ -52,12 +52,9 @@ public class GeneticAlgorithm {
 		Population newpop;
 		Individual x,y;
 		Individual[] children = new Individual[2];
-		//PrintWriter writer;
-		//try {
-			//writer = new PrintWriter("data.xml", "UTF-8");
 		JFreeChart chart;
 		XYSeriesCollection data = new XYSeriesCollection();
-		XYSeries series = new XYSeries("asdjh");
+		XYSeries series = new XYSeries("");
 		
 			for(int i = 0;i<GEN_CAP;i++){
 				//writer.println(i+"	"+pop.getBestFitness());
@@ -80,26 +77,19 @@ public class GeneticAlgorithm {
 					newpop.addIndividual(children[1]);
 				}
 				pop=newpop;
+				pop.hillClimbing();
 			}
 			series.add(GEN_CAP,pop.getBestFitness());
 			data.addSeries(series);
-			chart = ChartFactory.createXYLineChart("chart", "Generation", "Fitness", data);
+			chart = ChartFactory.createXYLineChart("Evolution", "Generation", "Fitness", data);
 			ChartPanel chartPanel = new ChartPanel(chart);
 	        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 	        chartPanel.setVisible(true);
-	        JFrame frame = new JFrame("asdjhg");
+	        JFrame frame = new JFrame("GeneticAlgorithm");
 	        frame.add(chartPanel);
 	        frame.pack();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setVisible(true);
-	        //setContentPane(chartPanel);
-			//data = = new XYSeriesCollection();
-			//writer.println(GEN_CAP+"	"+pop.getBestFitness());
-			
-			//writer.close();
-
-		//} catch (FileNotFoundException | UnsupportedEncodingException e) {
-		//	e.printStackTrace();
-		//}
 		return pop.getBestIndividual();		
 	}
 }

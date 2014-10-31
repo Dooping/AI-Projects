@@ -1,7 +1,5 @@
 package circuit;
 
-import java.*;
-import java.util.*;
 import java.io.*;
 import static java.lang.Math.*;
 
