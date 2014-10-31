@@ -59,26 +59,54 @@ public class RoverCircuit extends Individual {
 
 	@Override
 	public Individual[] crossover(Individual other) {
+		//return OX2(other);
+		return OX1(other);
+	}
+	
+	private Individual[] OX2(Individual other){
+		int[] ca = new int[size];
+		int[] cb = new int[size];
+		boolean[] check1 = new boolean[size];
+		boolean[] check2 = new boolean[size];
 		
-		//OX2
-		// p1 = 1 2 3 4 5 6 7 8 9
-		// p2 = 4 5 2 1 8 7 6 9 3
-		// f1 = 2 1 8 4 5 6 7 9 3
-		// f2 = 2 3 4 1 8 7 6 5 9
-		// cut1 = 3
-		// cut2 = 7
-		//
-		// r1 = gen.nextInt(size-1)
-		// r2 = gen.nextInt(size-2)
-		// if (r2 >= r1)
-		// cut1=r1+1
-		// cut2=r2+2
-		// else
-		// cut1=r2+1
-		// cut2=r1+2
+		int cut1,cut2;
+		int r1 = gen.nextInt(size-1);
+		int r2 = gen.nextInt(size-2);
+		if (r2 >= r1){
+			cut1=r1+1;
+			cut2=r2+2;
+		}
+		else{
+			cut1=r2+1;
+			cut2=r1+2;
+		}
 		
-		//boolean[] check1... check1[4]=true
+		for (int i=cut1;i<cut2;i++){
+			ca[i] = this.getCircuit()[i];
+			check1[ca[i]]=true;
+			cb[i] = ((RoverCircuit)other).getCircuit()[i];
+			check2[cb[i]]=true;
+		}
+		int n1 = 0;
+		int n2 = 0;
+		for(int i=0;i<size;i++){
+			if (!check1[((RoverCircuit)other).getCircuit()[i]])
+				ca[n1++]=((RoverCircuit)other).getCircuit()[i];
+			if (!check2[this.getCircuit()[i]])
+				cb[n2++]=this.getCircuit()[i];
+			if (n1 == cut1)
+				n1 = cut2;
+			if (n2 == cut1)
+				n2 = cut2;
+		}
 		
+		children[0] = new RoverCircuit(data,ca);
+		children[1] = new RoverCircuit(data,cb);
+		
+		return children;
+	}
+	
+	private Individual[] OX1(Individual other){
 		int[] ca = new int[size];
 		int[] cb = new int[size];
 		boolean[] check1 = new boolean[size];

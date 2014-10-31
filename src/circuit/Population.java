@@ -134,7 +134,7 @@ public class Population {
 					bestInd = children[i];
 					pop.set(0, bestInd);
 					changed = true;
-						
+					currupt = true;	
 				}
 		}
 	}

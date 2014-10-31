@@ -11,10 +11,10 @@ import org.jfree.data.xy.*;
  */
 public class GeneticAlgorithm {
 
-	private final static int GEN_CAP = 1000;
-	private static final float DEFAULT_P_CROSSOVER = 0.6f;
-	private static final float DEFAULT_P_MUTATE = 0.0001f;
-	private static final int ELITE = 20;
+	private final static int GEN_CAP = 2000;
+	private static final float DEFAULT_P_CROSSOVER = 1.0f;
+	private static final float DEFAULT_P_MUTATE = 0.05f;
+	private static final int ELITE = 50;
 	
 	private static Random gen = new Random();
 	private float pcrossover;
