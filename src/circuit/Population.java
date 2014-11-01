@@ -31,7 +31,7 @@ public class Population {
 		this.worstInd = null;
 		this.bestFit = Double.POSITIVE_INFINITY;
 		this.worstFit = Double.NEGATIVE_INFINITY;
-		gen.setSeed(System.currentTimeMillis());
+		gen.setSeed(System.nanoTime());
 	}
 	
 	/**
@@ -52,6 +52,7 @@ public class Population {
 		//está a implementar o método da roleta
 		// Verifica se necessita de calcular os valores de probabilidade de selec��o de cada indiv�duo
 		if( currupt ) {
+			acum.clear();
 			double total=0.0;
 			for(int i=0; i < pop.size(); i++) {
 				total += 1/pop.get(i).fitness();
@@ -130,7 +131,7 @@ public class Population {
 			children = bestInd.crossover(this.selectIndividual());
 			changed = false;
 			for (int i=0;i<children.length;i++)
-				if (children[i].fitness()<=bestInd.fitness()){
+				if (children[i].fitness()<bestInd.fitness()){
 					bestInd = children[i];
 					pop.set(0, bestInd);
 					changed = true;

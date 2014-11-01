@@ -11,14 +11,16 @@ import org.jfree.data.xy.*;
  */
 public class GeneticAlgorithm {
 
-	private final static int GEN_CAP = 2000;
-	private static final float DEFAULT_P_CROSSOVER = 1.0f;
-	private static final float DEFAULT_P_MUTATE = 0.05f;
-	private static final int ELITE = 50;
+	public final static int GEN_CAP = 2000;
+	public static final float DEFAULT_P_CROSSOVER = 0.6f;
+	public static final float DEFAULT_P_MUTATE = 0.01f;
+	public static final int ELITE = 50;
 	
 	private static Random gen = new Random();
 	private float pcrossover;
 	private float pmutate;
+	private int elite;
+	private int gen_cap;
 	private Population pop;
 
 	/**
@@ -26,9 +28,11 @@ public class GeneticAlgorithm {
 	 * @param pop uma popula��o
 	 */
 	GeneticAlgorithm(Population pop) {
-		gen.setSeed(System.currentTimeMillis());
+		gen.setSeed(System.nanoTime());
 		pcrossover = DEFAULT_P_CROSSOVER;
 		pmutate = DEFAULT_P_MUTATE;
+		elite = ELITE;
+		gen_cap = GEN_CAP;
 		this.pop = pop;
 	}
 	/**
@@ -37,11 +41,13 @@ public class GeneticAlgorithm {
 	 * @param pcrossover a probabilidade de crossover
 	 * @param pmutate a probabilidade de muta��o
 	 */
-	GeneticAlgorithm(Population pop, float pcrossover, float pmutate) {
-		gen.setSeed(System.currentTimeMillis());
+	GeneticAlgorithm(Population pop, float pcrossover, float pmutate, int gen_cap, int elite) {
+		gen.setSeed(System.nanoTime());
 		this.pop = pop;
 		this.pcrossover = pcrossover;
 		this.pmutate = pmutate;
+		this.elite = elite;
+		this.gen_cap = gen_cap;
 	}
 	
 	/**
@@ -54,12 +60,16 @@ public class GeneticAlgorithm {
 		Individual[] children = new Individual[2];
 		JFreeChart chart;
 		XYSeriesCollection data = new XYSeriesCollection();
-		XYSeries series = new XYSeries("");
+		XYSeries best = new XYSeries("Best fitness");
+		XYSeries worst = new XYSeries("Worst fitness");
+		XYSeries average = new XYSeries("Average fitness");
 		
-			for(int i = 0;i<GEN_CAP;i++){
+			for(int i = 0;i<gen_cap;i++){
 				//writer.println(i+"	"+pop.getBestFitness());
-				series.add(i,pop.getBestFitness());
-				newpop = pop.getElite(ELITE);
+				best.add(i,pop.getBestFitness());
+				worst.add(i,pop.getWorstFitness());
+				average.add(i,pop.getAvgFitness());
+				newpop = pop.getElite(elite);
 				while(newpop.getSize()<pop.getSize()){
 					x=pop.selectIndividual();
 					y=pop.selectIndividual();
@@ -79,16 +89,20 @@ public class GeneticAlgorithm {
 				pop=newpop;
 				pop.hillClimbing();
 			}
-			series.add(GEN_CAP,pop.getBestFitness());
-			data.addSeries(series);
-			chart = ChartFactory.createXYLineChart("Evolution", "Generation", "Fitness", data);
+			best.add(gen_cap,pop.getBestFitness());
+			worst.add(gen_cap,pop.getWorstFitness());
+			average.add(gen_cap,pop.getAvgFitness());
+			data.addSeries(best);
+			data.addSeries(worst);
+			data.addSeries(average);
+			chart = ChartFactory.createXYLineChart("p.cross: "+pcrossover*100+"% p.mutate: "+pmutate*100+"% elite: "+elite, "Generation", "Fitness", data);
 			ChartPanel chartPanel = new ChartPanel(chart);
-	        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+	        chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
 	        chartPanel.setVisible(true);
 	        JFrame frame = new JFrame("GeneticAlgorithm");
 	        frame.add(chartPanel);
 	        frame.pack();
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	        frame.setVisible(true);
 		return pop.getBestIndividual();		
 	}

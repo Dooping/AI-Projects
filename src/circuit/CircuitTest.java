@@ -1,17 +1,28 @@
 package circuit;
 
 import java.io.*;
+
 import static java.lang.Math.*;
 
 public class CircuitTest {
 
+	public static final int DEFAULT_POP = 200;
+	
+	private int pop_size;
 	/**
 	 * @param args
+	 * @throws IOException, ClassNotFoundException 
 	 */
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
-				
+	//public static void main(String[] args) throws IOException, ClassNotFoundException {
+	public CircuitTest(int pop_size,float pcrossover, float pmutate, int gen_cap, int elite) throws IOException, ClassNotFoundException{
+		System.out.println(pop_size+":"+pcrossover+":"+pmutate+":"+gen_cap+":"+elite);
+		if (pop_size > 0)
+			this.pop_size = pop_size;
+		else
+			this.pop_size = DEFAULT_POP;
+		
 		String datastr = "";
-		BufferedReader reader = new BufferedReader( new FileReader("/home/doping/Downloads/CinquentaAnel.txt"));
+		BufferedReader reader = new BufferedReader( new FileReader("/home/doping/Downloads/TrintaReal.txt"));
 		
 		String line = reader.readLine();
 		while( line != null) {
@@ -70,20 +81,19 @@ public class CircuitTest {
 		System.out.println(offspring[1].fitness());
 		
 		Population p = new Population();
-		
-		for(int i=0; i < 200; i++) {
+		for(int i=0; i < this.pop_size; i++) {
 			Individual ind = new RoverCircuit(r);
-			System.out.println(ind);
-			System.out.println(ind.fitness());
+			//System.out.println(ind);
+			//System.out.println(ind.fitness());
 			p.addIndividual(ind);
 		}
 		System.out.println(p.getBestFitness() + " "+ p.getAvgFitness() + " " +p.getWorstFitness());		
 		System.out.println(p.getBestIndividual());
 
-		System.out.println(p.selectIndividual());
-		System.out.println(p.selectIndividual());
+		//System.out.println(p.selectIndividual());
+		//System.out.println(p.selectIndividual());
 		
-		GeneticAlgorithm ga = new GeneticAlgorithm(p,0.9f,0.2f);
+		GeneticAlgorithm ga = new GeneticAlgorithm(p,pcrossover,pmutate,gen_cap,elite);
 		
 		System.out.println("--------------------");
 		Individual bestind = ga.search();

@@ -23,7 +23,7 @@ public class RoverCircuit extends Individual {
 		for (int i = 0; i<data.getSize(); i++)
 			c.add(i);
 		
-		gen.setSeed(System.currentTimeMillis());
+		gen.setSeed(System.nanoTime());
 		Collections.shuffle(c,gen);
 		for(int i = 0;i<c.size();i++){
 			circuit[i]=c.get(i);
