@@ -123,10 +123,33 @@ public class Population {
 		return size;
 	}
 	
-	public void hillClimbing(){
+	public void hillClimbing(int n){
 		Collections.sort(pop);
-		boolean changed = true;
-		Individual []children;
+		boolean changed;
+		Individual aux;
+		for (int i = 0; i<n;i++){
+			changed = true;
+			while (changed){
+				changed = false;
+				aux = ((Individual)pop.get(i).clone());
+				aux.mutate();
+				if (aux.fitness()<=pop.get(i).fitness()){
+					currupt = true;
+					pop.set(i, aux);
+					if (aux.fitness()<bestFit){
+						changed = true;
+						bestInd = aux;
+						bestFit = aux.fitness();
+					}
+				}
+			}
+		}
+			
+		
+		
+		
+		
+		/*Individual []children;
 		while(changed){
 			children = bestInd.crossover(this.selectIndividual());
 			changed = false;
@@ -137,7 +160,7 @@ public class Population {
 					changed = true;
 					currupt = true;	
 				}
-		}
+		}*/
 	}
 	
 

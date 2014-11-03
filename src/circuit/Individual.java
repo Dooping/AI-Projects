@@ -14,7 +14,7 @@ public abstract class Individual implements Comparable<Individual>{
 	 * m�todo abstracto que cruza dois indiv�duos e gera um array de indiv�duos.
 	 * @return Individual[], array de indiv�duos
 	 */
-	public abstract Individual[] crossover(Individual other);
+	public abstract Individual[] crossover(Individual other, GeneticAlgorithm.crossoverOP op);
 	/**
 	 * 	M�todo abstracto que opera uma muta��o num indiv�duo.
 	 */

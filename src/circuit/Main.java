@@ -14,19 +14,25 @@ public class Main {
 	
 	private static void setWindow() {
 		
-	    final String[] labels = {"Population: ", "Elite: ", "Crossover", "Mutation: ", "Gerações: "};
-	    final JTextField []textField = new JTextField[labels.length];
+	    final String[] labels = {"Population: ", "Elite: ", "Crossover", "Mutation: ", "Gerações: ","Crossover Op: "};
+	    final JTextField []textField = new JTextField[labels.length-1];
 	    int labelsLength = labels.length;
 
 	    //Create and populate the panel.
 	    JPanel p = new JPanel(new SpringLayout());
-	    for (int i = 0; i < labelsLength; i++) {
+	    for (int i = 0; i < labelsLength-1; i++) {
 	        JLabel l = new JLabel(labels[i], JLabel.TRAILING);
 	        p.add(l);
 	        textField[i] = new JTextField(10);
 	        l.setLabelFor(textField[i]);
 	        p.add(textField[i]);
 	    }
+	    JLabel l = new JLabel(labels[labels.length-1], JLabel.TRAILING);
+	    p.add(l);
+	    final JComboBox c = new JComboBox();
+	    c.addItem("OX1");
+	    c.addItem("OX2");
+	    p.add(c);
 	    JButton button = new JButton("Start!");
 	    p.add(new JLabel());
 	    p.add(button);
@@ -37,7 +43,7 @@ public class Main {
 	    textField[4].setText(""+GeneticAlgorithm.GEN_CAP);
 
 	    //Lay out the panel.
-	    p.setLayout(new GridLayout(6, 2));
+	    p.setLayout(new GridLayout(7, 2));
 	    
 	    button.addActionListener(new ActionListener() {
 
@@ -46,7 +52,8 @@ public class Main {
 	        	try {
 	        		CircuitTest circuit = new CircuitTest(Integer.parseInt(textField[0].getText()),
 							Float.parseFloat(textField[2].getText())/100, Float.parseFloat(textField[3].getText())/100,
-							Integer.parseInt(textField[4].getText()), Integer.parseInt(textField[1].getText()));
+							Integer.parseInt(textField[4].getText()), Integer.parseInt(textField[1].getText()),
+							c.getSelectedIndex());
 	        	} catch (ClassNotFoundException | IOException e1) {
 					e1.printStackTrace();
 				}

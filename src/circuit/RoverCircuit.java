@@ -14,6 +14,7 @@ public class RoverCircuit extends Individual {
 	private ObservationData data;
 	private Double fit = 0.0;
 	
+	
 	//2 construtores
 	public RoverCircuit(ObservationData data){
 		this.data = data;
@@ -58,9 +59,12 @@ public class RoverCircuit extends Individual {
 	}
 
 	@Override
-	public Individual[] crossover(Individual other) {
-		//return OX2(other);
-		return OX1(other);
+	public Individual[] crossover(Individual other, GeneticAlgorithm.crossoverOP op) {
+		switch (op){
+		case OX1: return OX1(other);
+		case OX2: return OX2(other);
+		}
+		return null;
 	}
 	
 	private Individual[] OX2(Individual other){
@@ -164,9 +168,10 @@ public class RoverCircuit extends Individual {
 	public void mutate() {
 		// operador de troca
 		int n1 = gen.nextInt(size);
-		int n2 = gen.nextInt(size-1);
+		int n2 = gen.nextInt(size);
 		if (n1 == n2)
 			n1++;
+		n1=n1%size;
 		int aux = circuit[n1];
 		circuit[n1]=circuit[n2];
 		circuit[n2]=aux;

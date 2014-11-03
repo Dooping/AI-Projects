@@ -22,6 +22,11 @@ public class GeneticAlgorithm {
 	private int elite;
 	private int gen_cap;
 	private Population pop;
+	private crossoverOP crossoverop;
+	
+	public enum crossoverOP{
+		OX1,OX2
+	};
 
 	/**
 	 * Construtor
@@ -41,13 +46,17 @@ public class GeneticAlgorithm {
 	 * @param pcrossover a probabilidade de crossover
 	 * @param pmutate a probabilidade de muta��o
 	 */
-	GeneticAlgorithm(Population pop, float pcrossover, float pmutate, int gen_cap, int elite) {
+	GeneticAlgorithm(Population pop, float pcrossover, float pmutate, int gen_cap, int elite, int crossoveroperator) {
 		gen.setSeed(System.nanoTime());
 		this.pop = pop;
 		this.pcrossover = pcrossover;
 		this.pmutate = pmutate;
 		this.elite = elite;
 		this.gen_cap = gen_cap;
+		if (crossoveroperator == 0)
+			crossoverop = crossoverOP.OX1;
+		else
+			crossoverop = crossoverOP.OX2;
 	}
 	
 	/**
@@ -74,7 +83,7 @@ public class GeneticAlgorithm {
 					x=pop.selectIndividual();
 					y=pop.selectIndividual();
 					if (gen.nextFloat()<=pcrossover)
-						children = x.crossover(y);
+						children = x.crossover(y,crossoverop);
 					else{
 						children[0] = x;
 						children[1] = y;
@@ -87,7 +96,7 @@ public class GeneticAlgorithm {
 					newpop.addIndividual(children[1]);
 				}
 				pop=newpop;
-				pop.hillClimbing();
+				pop.hillClimbing(elite);
 			}
 			best.add(gen_cap,pop.getBestFitness());
 			worst.add(gen_cap,pop.getWorstFitness());
@@ -95,7 +104,7 @@ public class GeneticAlgorithm {
 			data.addSeries(best);
 			data.addSeries(worst);
 			data.addSeries(average);
-			chart = ChartFactory.createXYLineChart("p.cross: "+pcrossover*100+"% p.mutate: "+pmutate*100+"% elite: "+elite, "Generation", "Fitness", data);
+			chart = ChartFactory.createXYLineChart("p.cross: "+Math.round(pcrossover*100)+"% p.mutate: "+Math.round(pmutate*100)+"% elite: "+elite, "Generation", "Fitness", data);
 			ChartPanel chartPanel = new ChartPanel(chart);
 	        chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
 	        chartPanel.setVisible(true);

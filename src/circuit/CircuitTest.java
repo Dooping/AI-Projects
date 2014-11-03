@@ -14,8 +14,8 @@ public class CircuitTest {
 	 * @throws IOException, ClassNotFoundException 
 	 */
 	//public static void main(String[] args) throws IOException, ClassNotFoundException {
-	public CircuitTest(int pop_size,float pcrossover, float pmutate, int gen_cap, int elite) throws IOException, ClassNotFoundException{
-		System.out.println(pop_size+":"+pcrossover+":"+pmutate+":"+gen_cap+":"+elite);
+	public CircuitTest(int pop_size,float pcrossover, float pmutate, int gen_cap, int elite, int crossoverOP) throws IOException, ClassNotFoundException{
+		System.out.println(pop_size+":"+pcrossover+":"+pmutate+":"+gen_cap+":"+elite+":"+crossoverOP);
 		if (pop_size > 0)
 			this.pop_size = pop_size;
 		else
@@ -66,19 +66,19 @@ public class CircuitTest {
 		
 		r = new ObservationData(size,spot,distances);
 		*/	
-		RoverCircuit p1 = new RoverCircuit(r);
+		/*RoverCircuit p1 = new RoverCircuit(r);
 		RoverCircuit p2 = new RoverCircuit(r);
 		
 		System.out.println(p1);
 		System.out.println(p1.fitness());
 		System.out.println(p2);
-		System.out.println(p2.fitness());
+		System.out.println(p2.fitness());*/
 		
-		Individual[] offspring = p1.crossover(p2);
+		/*Individual[] offspring = p1.crossover(p2);
 		System.out.println(offspring[0]);
 		System.out.println(offspring[0].fitness());
 		System.out.println(offspring[1]);
-		System.out.println(offspring[1].fitness());
+		System.out.println(offspring[1].fitness());*/
 		
 		Population p = new Population();
 		for(int i=0; i < this.pop_size; i++) {
@@ -93,7 +93,7 @@ public class CircuitTest {
 		//System.out.println(p.selectIndividual());
 		//System.out.println(p.selectIndividual());
 		
-		GeneticAlgorithm ga = new GeneticAlgorithm(p,pcrossover,pmutate,gen_cap,elite);
+		GeneticAlgorithm ga = new GeneticAlgorithm(p,pcrossover,pmutate,gen_cap,elite, crossoverOP);
 		
 		System.out.println("--------------------");
 		Individual bestind = ga.search();
