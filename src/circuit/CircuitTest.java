@@ -14,8 +14,7 @@ public class CircuitTest {
 	 * @throws IOException, ClassNotFoundException 
 	 */
 	//public static void main(String[] args) throws IOException, ClassNotFoundException {
-	public CircuitTest(int pop_size,float pcrossover, float pmutate, int gen_cap, int elite, int crossoverOP) throws IOException, ClassNotFoundException{
-		System.out.println(pop_size+":"+pcrossover+":"+pmutate+":"+gen_cap+":"+elite+":"+crossoverOP);
+	public CircuitTest(int pop_size,float pcrossover, float pmutate, int gen_cap, int elite, int crossoverOP, boolean hillc) throws IOException, ClassNotFoundException{
 		if (pop_size > 0)
 			this.pop_size = pop_size;
 		else
@@ -93,7 +92,7 @@ public class CircuitTest {
 		//System.out.println(p.selectIndividual());
 		//System.out.println(p.selectIndividual());
 		
-		GeneticAlgorithm ga = new GeneticAlgorithm(p,pcrossover,pmutate,gen_cap,elite, crossoverOP);
+		GeneticAlgorithm ga = new GeneticAlgorithm(p,pcrossover,pmutate,gen_cap,elite, crossoverOP,hillc);
 		
 		System.out.println("--------------------");
 		Individual bestind = ga.search();

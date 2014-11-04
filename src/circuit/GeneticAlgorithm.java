@@ -23,6 +23,7 @@ public class GeneticAlgorithm {
 	private int gen_cap;
 	private Population pop;
 	private crossoverOP crossoverop;
+	private boolean hillClimbing;
 	
 	public enum crossoverOP{
 		OX1,OX2
@@ -46,7 +47,7 @@ public class GeneticAlgorithm {
 	 * @param pcrossover a probabilidade de crossover
 	 * @param pmutate a probabilidade de muta��o
 	 */
-	GeneticAlgorithm(Population pop, float pcrossover, float pmutate, int gen_cap, int elite, int crossoveroperator) {
+	GeneticAlgorithm(Population pop, float pcrossover, float pmutate, int gen_cap, int elite, int crossoveroperator, boolean hillc) {
 		gen.setSeed(System.nanoTime());
 		this.pop = pop;
 		this.pcrossover = pcrossover;
@@ -57,6 +58,7 @@ public class GeneticAlgorithm {
 			crossoverop = crossoverOP.OX1;
 		else
 			crossoverop = crossoverOP.OX2;
+		this.hillClimbing = hillc;
 	}
 	
 	/**
@@ -74,7 +76,6 @@ public class GeneticAlgorithm {
 		XYSeries average = new XYSeries("Average fitness");
 		
 			for(int i = 0;i<gen_cap;i++){
-				//writer.println(i+"	"+pop.getBestFitness());
 				best.add(i,pop.getBestFitness());
 				worst.add(i,pop.getWorstFitness());
 				average.add(i,pop.getAvgFitness());
@@ -96,7 +97,8 @@ public class GeneticAlgorithm {
 					newpop.addIndividual(children[1]);
 				}
 				pop=newpop;
-				pop.hillClimbing(elite);
+				if (hillClimbing)
+					pop.hillClimbing(elite);
 			}
 			best.add(gen_cap,pop.getBestFitness());
 			worst.add(gen_cap,pop.getWorstFitness());
